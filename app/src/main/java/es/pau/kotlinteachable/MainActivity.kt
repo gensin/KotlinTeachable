@@ -2,6 +2,7 @@ package es.pau.kotlinteachable
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -9,7 +10,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        toast("hello")
+        changeText("hello Textview")
+        toast("Hello Toast")
+    }
+
+    private fun changeText(text: String) {
+        val textView = findViewById(R.id.text_view) as TextView
+        // Existen dos formas de agregar texto en un text view
+//        textView.setText(text)
+        textView.text = text
     }
 
     // Two ways of create functions. One as a typical method
