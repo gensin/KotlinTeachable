@@ -27,12 +27,12 @@ class MediaAdapter(val items: List<MediaItem>): RecyclerView.Adapter<MediaAdapte
     override fun getItemCount(): Int = items.size
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title = view.findViewById<TextView>(R.id.media_item_title)
-        val image = view.findViewById<ImageView>(R.id.media_item_image)
+        val title = find<TextView>(R.id.media_item_title)
+        val image = find<ImageView>(R.id.media_item_image)
 
         fun bind(item: MediaItem) {
             title.text = item.title
-            Picasso.with(image.context).load(item.thumbUrl).into(image)
+            image.loadUrl(item.thumbUrl)
         }
     }
 }
