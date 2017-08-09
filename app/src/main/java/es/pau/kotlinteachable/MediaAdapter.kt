@@ -27,12 +27,18 @@ class MediaAdapter(val items: List<MediaItem>): RecyclerView.Adapter<MediaAdapte
     override fun getItemCount(): Int = items.size
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title = find<TextView>(R.id.media_item_title)
-        val image = find<ImageView>(R.id.media_item_image)
+        val title = find<TextView>(R.id.media_title)
+        val image = find<ImageView>(R.id.media_thumb)
+        val icon = find<ImageView>(R.id.media_video_indicator)
 
         fun bind(item: MediaItem) {
             title.text = item.title
             image.loadUrl(item.thumbUrl)
+            
+            when (item.type) {
+                MediaItem.Type.PHOTO -> icon.visibility = View.GONE
+                MediaItem.Type.VIDEO -> icon.visibility = View.VISIBLE
+            }
         }
     }
 }
