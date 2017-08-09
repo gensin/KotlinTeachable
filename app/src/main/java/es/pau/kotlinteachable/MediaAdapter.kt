@@ -34,10 +34,10 @@ class MediaAdapter(val items: List<MediaItem>): RecyclerView.Adapter<MediaAdapte
         fun bind(item: MediaItem) {
             title.text = item.title
             image.loadUrl(item.thumbUrl)
-            
-            when (item.type) {
-                MediaItem.Type.PHOTO -> icon.visibility = View.GONE
-                MediaItem.Type.VIDEO -> icon.visibility = View.VISIBLE
+
+            icon.visibility = when (item.type) {
+                MediaItem.Type.PHOTO -> View.GONE
+                MediaItem.Type.VIDEO -> View.VISIBLE
             }
         }
     }
