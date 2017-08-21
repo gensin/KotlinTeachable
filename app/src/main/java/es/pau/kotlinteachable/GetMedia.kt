@@ -3,7 +3,7 @@ package es.pau.kotlinteachable
 /**
  * Created on 18/08/2017.
  */
-private val thumbBase = "http://lorempixel.com/400/400/cats"
+private val thumbBase = "http://lorempixel.com/400/400/cats/"
 
 fun getMedia() = listOf(
     MediaItem("Title 1", "${thumbBase}1", MediaItem.Type.PHOTO),
