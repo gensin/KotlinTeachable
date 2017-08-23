@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.view_media_item.view.*
  * Created on 03/08/2017.
  */
 
-class MediaAdapter(val items: List<MediaItem>, val onItemClick: (MediaItem) -> Unit)
+class MediaAdapter(var items: List<MediaItem>, val onItemClick: (MediaItem) -> Unit)
     : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
