@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val adapter = MediaAdapter(getMedia()) { (title) -> toast(title) }
+    val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
-    val recyclerView by lazy {
-        findViewById(R.id.recycler) as RecyclerView
-    }
+    var adapter = MediaAdapter(getMedia()) { (title) -> toast(title) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         recyclerView.adapter = adapter
     }
 
