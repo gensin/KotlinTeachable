@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
 
     val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
-    var adapter = MediaAdapter(getMedia()) { (title) -> toast(title) }
+    var adapter = MediaAdapter(MediaProvider.getMedia) { (title) -> toast(title) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        return true;
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.items = getMedia().let { media ->
+        adapter.items = MediaProvider.getMedia.let { media ->
             when(item.itemId) {
                 R.id.filter_all -> media
                 R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
