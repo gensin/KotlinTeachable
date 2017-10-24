@@ -11,7 +11,7 @@ import kotlin.properties.Delegates
  * Created on 03/08/2017.
  */
 
-class MediaAdapter(items: List<MediaItem>, val onItemClick: (MediaItem) -> Unit)
+class MediaAdapter(items: List<MediaItem> = emptyList<MediaItem>(), val onItemClick: (MediaItem) -> Unit)
     : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var items: List<MediaItem> by Delegates.observable(items) { _, _, _ ->

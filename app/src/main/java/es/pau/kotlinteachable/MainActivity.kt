@@ -10,13 +10,14 @@ class MainActivity : AppCompatActivity() {
 
     val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
-    var adapter = MediaAdapter(MediaProvider.getMedia) { (title) -> toast(title) }
+    var adapter = MediaAdapter() { (title) -> toast(title) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recyclerView.adapter = adapter
+        MediaProvider.dataAsync { adapter.items = it }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -25,8 +26,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.items = MediaProvider.getMedia.let { media ->
-            when(item.itemId) {
+         MediaProvider.dataAsync{ media ->
+            adapter.items = when(item.itemId) {
                 R.id.filter_all -> media
                 R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
                 R.id.filter_videos -> media.filter { it.type == MediaItem.Type.VIDEO }
