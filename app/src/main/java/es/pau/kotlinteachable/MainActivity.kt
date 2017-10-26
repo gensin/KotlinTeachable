@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import org.jetbrains.anko.startActivity
+import java.util.Locale.filter
 
 class MainActivity : AppCompatActivity() {
 
     val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
-    var adapter = MediaAdapter() { navigateToDetail(it) }
+    var adapter = MediaAdapter { navigateToDetail(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,18 +28,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         MediaProvider.dataAsync{ media ->
-            adapter.items = when(item.itemId) {
-                R.id.filter_all -> media
-                R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
-                R.id.filter_videos -> media.filter { it.type == MediaItem.Type.VIDEO }
-                else -> emptyList()
+        val filter: Filter = when(item.itemId) {
+            R.id.filter_photos -> Filter.ByType(MediaItem.Type.PHOTO)
+            R.id.filter_videos -> Filter.ByType(MediaItem.Type.VIDEO)
+            else -> Filter.None
+        }
+         loadFilteredData(filter)
+        return true
+    }
+
+    private fun loadFilteredData(filter: Filter) {
+        MediaProvider.dataAsync{ media ->
+            adapter.items = when(filter) {
+                Filter.None -> media
+                is Filter.ByType -> media.filter { it.type == filter.type}
             }
         }
-        return true
     }
 
     private fun navigateToDetail(item: MediaItem) {
         startActivity<DetailActivity>(DetailActivity.ID to item.id)
-    }
+     }
 }
