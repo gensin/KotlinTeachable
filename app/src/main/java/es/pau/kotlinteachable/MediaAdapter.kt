@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.view_media_item.view.*
 import kotlin.properties.Delegates
 
+typealias Listener = (MediaItem) -> Unit
+
 /**
  * Project: KotlinTeachable
  * Created on 03/08/2017.
  */
 
-class MediaAdapter(items: List<MediaItem> = emptyList<MediaItem>(), val onItemClick: (MediaItem) -> Unit)
+class MediaAdapter(items: List<MediaItem> = emptyList<MediaItem>(), val onItemClick: Listener)
     : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var items: List<MediaItem> by Delegates.observable(items) { _, _, _ ->
