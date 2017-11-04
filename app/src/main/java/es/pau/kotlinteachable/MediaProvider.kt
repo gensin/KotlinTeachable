@@ -1,6 +1,5 @@
 package es.pau.kotlinteachable
 
-import android.support.annotation.UiThread
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -9,21 +8,26 @@ import org.jetbrains.anko.uiThread
  */
 
 object MediaProvider {
-    private val thumbBase = "http://lorempixel.com/400/400/cats/"
+    private val thumbBase = "http://lorempixel.com/400/400/"
 
     private var data: List<MediaItem> = emptyList<MediaItem>()
 
-    fun dataAsync(callback: (List<MediaItem>) -> Unit) {
+    fun dataAsync(dataType: String, callback: (List<MediaItem>) -> Unit) {
         doAsync {
             if (data.isEmpty()) {
-                Thread.sleep(2000)
-                data = (1..10).map { MediaItem(it, "Title $it", "$thumbBase$it", selectType(it)) }
+                data = dataSync(dataType)
             }
 
             uiThread {
                 callback(data)
             }
         }
+    }
+
+    public fun dataSync(dataType: String): List<MediaItem> {
+            Thread.sleep(2000)
+            data = (1..10).map { MediaItem(it, "Title $it", "$thumbBase/dataType/$it", selectType(it)) }
+            return data
     }
 
     fun selectType(position: Int): MediaItem.Type {

@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.startActivity
 import java.util.Locale.filter
 
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView.adapter = adapter
-        MediaProvider.dataAsync { adapter.items = it }
+        loadFilteredData(Filter.None)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -38,11 +41,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadFilteredData(filter: Filter) {
-        MediaProvider.dataAsync{ media ->
+       /* MediaProvider.dataAsync{ media ->
             adapter.items = when(filter) {
                 Filter.None -> media
                 is Filter.ByType -> media.filter { it.type == filter.type}
             }
+        }*/
+        async(UI){
+            val cats = bg { MediaProvider.dataSync("cats")}
+            val nature = bg { MediaProvider.dataSync("nature")}
+            adapter.items = cats.await() + nature.await()
         }
     }
 
